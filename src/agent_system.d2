@@ -1,0 +1,63 @@
+title: Incident Knowledge Agent System {
+  near: top-center
+}
+
+# Data Sources
+Sources: {
+  Slack: {
+    shape: stored_data
+    label: "Slack\n(Incidents & Threads)"
+  }
+
+  Confluence: {
+    shape: stored_data
+    label: "Confluence\n(RCA Docs)"
+  }
+}
+
+# Agent System
+Agent: {
+  style.fill: "#FFE4B5"
+  
+  Memory: {
+    shape: cylinder
+    style.fill: "#98FB98"
+    label: "Memory\n(Vector Store)"
+  }
+
+  Tools: {
+    shape: rectangle
+    style.fill: "#ADD8E6"
+    label: "Tools\n- Search\n- Summarize\n- Link Incidents"
+  }
+
+  LLM: {
+    shape: rectangle
+    style.fill: "#FF9999"
+    label: "Large Language Model"
+  }
+
+  Planner: {
+    shape: rectangle
+    style.fill: "#DDA0DD"
+    label: "Task Planner"
+  }
+}
+
+# User Interface
+User: {
+  shape: person
+}
+
+# Connections
+Sources.Slack -> Agent.Memory: "Embed"
+Sources.Confluence -> Agent.Memory: "Embed"
+Agent.Memory -> Agent.Tools: "Context"
+Agent.Tools -> Agent.LLM: "Retrieved Info"
+Agent.LLM -> Agent.Planner: "Understanding"
+Agent.Planner -> Agent.Tools: "Next Action"
+User -> Agent.Planner: "Question"
+Agent.LLM -> User: "Response"
+
+# Metadata
+direction: down 
